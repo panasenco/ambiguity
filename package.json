@@ -2,9 +2,9 @@
   "name": "ambiguity",
   "version": "0.0.0-alpha",
   "description": "A minimal templating language for blocks of text with multiple possible values. ",
-  "main": "lib/ambiguity.ts",
+  "main": "ambiguity.js",
   "scripts": {
-    "start": "ts-node ./lib/ambiguity.ts",
+    "build": "mkdir -p ./dist && nearleyc ./ambiguity-grammar.ne -o dist/ambiguity-grammar.js",
     "test": "mocha"
   },
   "repository": {
@@ -20,6 +20,7 @@
   "devDependencies": {
     "graphology": "^0.25.0",
     "graphology-operators": "^1.6.0",
+    "mocha": "^10.0.0",
     "moo": "^0.5.2",
     "nearley": "^2.20.1"
   }
