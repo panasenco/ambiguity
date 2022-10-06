@@ -18,7 +18,7 @@ class GraphString extends graphology.Graph {
     graphString.replaceAttributes(this.getAttributes());
     return graphString;
   }
-  randomString(start = -1) {
+  randomString(start = "root") {
     const neighbors = this.outNeighbors(start);
     const text = this.getNodeAttribute(start, "text");
     if (neighbors.length == 0) {

@@ -18,7 +18,7 @@ const lexer = moo.compile({
 main -> template {%
   ([template]) =>
     graphstring.weave(
-      new graphstring.GraphString([{offset: -1, text: ""}]),
+      new graphstring.GraphString([{offset: "root", text: ""}]),
       template
     )
 %}
@@ -58,7 +58,7 @@ choices -> non_empty_template {%
     non_empty_template
 %}
 choices -> choices %choice_separator empty_choice {%
-  ([choices, _, empty_choice], location) =>
+  ([choices, _, empty_choice]) =>
     operators.union(choices, empty_choice)
 %}
 choices -> choices %choice_separator non_empty_template {%
@@ -67,5 +67,5 @@ choices -> choices %choice_separator non_empty_template {%
 %}
 
 empty_choice -> null {%
-  ([_], location) => new graphstring.GraphString([{offset: location, text: ""}])
+  ([_], location) => new graphstring.GraphString([{offset: -location, text: ""}])
 %}
