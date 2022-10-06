@@ -4,7 +4,7 @@
   "description": "A minimal templating language for blocks of text with multiple possible values. ",
   "main": "ambiguity.js",
   "scripts": {
-    "build": "mkdir -p ./dist && nearleyc ./ambiguity-grammar.ne -o dist/ambiguity-grammar.js",
+    "dist": "mkdir -p ./dist && nearleyc ./ambiguity-grammar.ne -o dist/ambiguity-grammar.js",
     "test": "mocha"
   },
   "repository": {

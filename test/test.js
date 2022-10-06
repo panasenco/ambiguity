@@ -11,4 +11,9 @@ describe("Parser", function() {
     parser.feed("");
     assert.equal(parser.results[0].order, 1);
   });
+  it("should parse an empty choice into a node", function() {
+    parser = new ambiguity.Parser();
+    parser.feed("<|a||>");
+    assert.equal(parser.results[0].order, 3);
+  });
 });

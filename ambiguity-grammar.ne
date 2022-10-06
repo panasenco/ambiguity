@@ -1,41 +1,71 @@
 @{%
 const moo = require("moo");
-const graphology_operators = require("graphology-operators");
+const operators = require("graphology-operators");
 
-const graph_string = require("../graph-string.js");
+const graphstring = require("../graphstring.js");
 
 const lexer = moo.compile({
-  open: '<|',
-  close: '|>',
-  separator: '|',
-  text: /.+?/
+  choices_start: '<|',
+  choices_end: '|>',
+  choice_separator: '|',
+  char: /./
 });
 
 %}
 
 @lexer lexer
 
-main -> text_with_choices {%
-  ([text_with_choices]) =>
-    graph_string.weave(
-      new graph_string.GraphString([{offset: -1, text: ""}]),
-      text_with_choices
+main -> template {%
+  ([template]) =>
+    graphstring.weave(
+      new graphstring.GraphString([{offset: -1, text: ""}]),
+      template
     )
 %}
 
-text_with_choices -> %text:* {% ([textarr]) => new graph_string.GraphString(textarr) %}
-  | text_with_choices choices_container %text:* {%
-  ([text_with_choices, choices_container, textarr]) =>
-    graph_string.weave(
-      text_with_choices,
+template -> null {%
+  ([_]) =>
+    new graphstring.GraphString([])
+%}
+template -> non_empty_template {%
+  ([non_empty_template]) =>
+    non_empty_template
+%}
+
+non_empty_template -> %char:+ {%
+  ([chars]) =>
+    new graphstring.GraphString(chars)
+%}
+non_empty_template -> template choices_container %char:* {%
+  ([template, choices_container, chars]) =>
+    graphstring.weave(
+      template,
       choices_container,
-      new graph_string.GraphString(textarr)
+      new graphstring.GraphString(chars)
     )
 %}
 
-choices_container -> %open choices %close {% ([_0, choices, _1]) => choices %}
-choices -> text_with_choices {% ([text_with_choices]) => text_with_choices %}
-  | choices %separator text_with_choices {%
-  ([choices, _, text_with_choices]) =>
-    graphology_operators.union(choices, text_with_choices)
+choices_container -> %choices_start choices %choices_end {%
+  ([_0, choices, _1]) =>
+    choices
+%}
+
+choices -> empty_choice {%
+  ([empty_choice]) => empty_choice
+%}
+choices -> non_empty_template {%
+  ([non_empty_template]) =>
+    non_empty_template
+%}
+choices -> choices %choice_separator empty_choice {%
+  ([choices, _, empty_choice], location) =>
+    operators.union(choices, empty_choice)
+%}
+choices -> choices %choice_separator non_empty_template {%
+  ([choices, _, non_empty_template]) =>
+    operators.union(choices, non_empty_template)
+%}
+
+empty_choice -> null {%
+  ([_], location) => new graphstring.GraphString([{offset: location, text: ""}])
 %}

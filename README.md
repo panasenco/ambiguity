@@ -4,13 +4,13 @@ If you're looking to <|optimize your resume for ATS|generate unique articles for
 
 ## Usage
 
-First, install *ambiguity*.
+First, install the package.
 
 ```
 npm install github:panasenco/ambiguity
 ```
 
-Then, use it in your code:
+Then, use it in your JavaScript code:
 ```
 const ambiguity = require("ambiguity");
 const parser = new ambiguity.Parser();
@@ -19,10 +19,10 @@ ambiguity_graph = parser.results[0];
 console.log(ambiguity_graph.randomString());
 ```
 
-This will log a random variation of your *ambiguity* template, for example:
+This will log a random variation of your ambiguity template, for example:
 
 > With increase in productive power, rent tends to even greater increase.
 
 ## How it works
 
-*Ambiguity* compiles your templates into a [graph-structured string](https://en.wikipedia.org/wiki/Graph-structured_stack).
+Ambiguity compiles your templates into a [graph-structured string](https://en.wikipedia.org/wiki/Graph-structured_stack). The heavy lifting is done by [Nearley](https://nearley.js.org/) and [Moo](https://github.com/no-context/moo).
