@@ -9,7 +9,8 @@ class GraphString extends graphology.Graph {
   constructor(textarr, ...args) {
     super(...args);
     if (textarr.length > 0) {
-      this.addNode(textarr[0].offset, {text: textarr.map(t => t.text).join("")});
+      const text = textarr.map(t => t.text).join("")
+      this.addNode(textarr[0].offset, {text: text, label: '"' + text + '"', size: 5});
     }
   }
   nullCopy(_) {
@@ -19,11 +20,11 @@ class GraphString extends graphology.Graph {
   }
   randomString(start = -1) {
     const neighbors = this.outNeighbors(start);
-    var text = this.getNodeAttribute(start, "text");
+    const text = this.getNodeAttribute(start, "text");
     if (neighbors.length == 0) {
       return text;
     } else {
-      randomNeighbor = get_random(neighbors);
+      const randomNeighbor = get_random(neighbors);
       return text + this.randomString(randomNeighbor);
     }
   }
