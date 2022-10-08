@@ -26,11 +26,19 @@ describe("Ambiguity", function() {
     // There should be a 'root' node
     assert(nodes[2] == "root");
   });
-  it("should generate a graph with working randomString() function", function() {
+  it("should generate a graph with working randomPath() function", function() {
     parser = new ambiguity.Parser();
     parser.feed("<|a||>");
     const g = parser.results[0];
-    const s = g.randomString();
+    const p = g.randomPath();
+    assert(p.length == 2);
+  });
+  it("should convert a path to a string", function() {
+    parser = new ambiguity.Parser();
+    parser.feed("<|a||>");
+    const g = parser.results[0];
+    const p = g.randomPath();
+    const s = g.pathToString(p);
     assert(s == "a" || s == "");
   });
 });

@@ -18,15 +18,21 @@ class GraphString extends graphology.Graph {
     graphString.replaceAttributes(this.getAttributes());
     return graphString;
   }
-  randomString(start = "root") {
+  randomPath(start = "root") {
     const neighbors = this.outNeighbors(start);
-    const text = this.getNodeAttribute(start, "text");
     if (neighbors.length == 0) {
-      return text;
+      return [start];
     } else {
       const randomNeighbor = get_random(neighbors);
-      return text + this.randomString(randomNeighbor);
+      return [start, ...(this.randomPath(randomNeighbor))];
     }
+  }
+  pathToString(path) {
+    var text = "";
+    for (var node of path) {
+        text += this.getNodeAttribute(node, "text");
+    }
+    return text;
   }
 }
 
