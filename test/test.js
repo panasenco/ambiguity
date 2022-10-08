@@ -1,6 +1,8 @@
-var assert = require('assert/strict');
+const assert = require('assert/strict');
 
-var ambiguity = require("../ambiguity.js");
+const genetic = require("genetic-js");
+
+const ambiguity = require("../ambiguity.js");
 
 describe("Ambiguity", function() {
   it("should initialize successfully", function() {
@@ -54,5 +56,30 @@ describe("Ambiguity", function() {
       var m = g.mutatedPath(p);
       assert(m.length == 2);
     }
+  });
+  it("should work with genetic.js to evolve the correct solution", function() {
+    parser = new ambiguity.Parser();
+    parser.feed("a<|a|b|c|><|a|b|><|c|de|><|b|f|>");
+    countUniqueChars = (str) => (new Set(str.split(""))).size;
+    g = parser.results[0];
+    const optimizer = genetic.create();
+    var solution = "";
+    optimizer.optimize = genetic.Optimize.Maximize;
+    optimizer.select1 = genetic.Select1.Tournament2;
+    optimizer.seed = () => g.randomPath();
+    optimizer.mutate = (path) => g.mutatedPath(path);
+    optimizer.fitness = (path) => countUniqueChars(g.pathToString(path));
+    optimizer.notification = (pop, generation, stats, isFinished) => {
+      if (isFinished) {
+        solution = g.pathToString(pop[0].entity);
+      }
+    }
+    optimizer.generation = (pop, generation, stats) => g.pathToString(pop[0].entity) != "acbdef";
+    
+    var config = { iterations: 100, size: 100, mutation: 0.4, skip: 10 };
+    
+    optimizer.evolve(config);
+    
+    assert.equal(solution, "acbdef");
   });
 });

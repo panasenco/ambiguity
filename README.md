@@ -23,6 +23,17 @@ This will log a random variation of your ambiguity template, for example:
 
 > With increase in productive power, rent tends to even greater increase.
 
+## API
+
+After parsing a string, Ambiguity returns a [Graphology](https://graphology.github.io/)-compatible graph object with the following additional methods to make usage with genetic algorithms easy:
+| Function              | Description
+| --------------------- | -----------
+| randomPath()          | Returns a random path through the graph as an array of nodes.
+| pathToString(nodeArr) | Returns the string corresponding to the provided array of nodes.
+| mutatedPath(nodeArr)  | "Mutates" the provided path (array of nodes), introducing a 'detour' in the path.
+
+The above APIs make it easy to use Ambiguity with [Genetic.js](https://subprotocol.com/system/genetic-js.html) to optimize your template output to any fitness function. See [examples/genetic.js](examples/genetic.js).
+
 ## How it works
 
 Ambiguity compiles your templates into a [graph-structured string](https://en.wikipedia.org/wiki/Graph-structured_stack). The heavy lifting is done by [Nearley](https://nearley.js.org/), [Moo](https://github.com/no-context/moo), and [Graphology](https://graphology.github.io/).
