@@ -30,15 +30,29 @@ describe("Ambiguity", function() {
     parser = new ambiguity.Parser();
     parser.feed("<|a||>");
     const g = parser.results[0];
-    const p = g.randomPath();
-    assert(p.length == 2);
+    for (let i=0; i < 10; i++) {
+      var p = g.randomPath();
+      assert(p.length == 2);
+    }
   });
   it("should convert a path to a string", function() {
     parser = new ambiguity.Parser();
     parser.feed("<|a||>");
     const g = parser.results[0];
-    const p = g.randomPath();
-    const s = g.pathToString(p);
-    assert(s == "a" || s == "");
+    for (let i=0; i < 10; i++) {
+      var p = g.randomPath();
+      var s = g.pathToString(p);
+      assert(s == "a" || s == "");
+    }
+  });
+  it("should be able to mutate a path", function() {
+    parser = new ambiguity.Parser();
+    parser.feed("<|a||>");
+    const g = parser.results[0];
+    for (let i=0; i < 10; i++) {
+      var p = g.randomPath();
+      var m = g.mutatedPath(p);
+      assert(m.length == 2);
+    }
   });
 });

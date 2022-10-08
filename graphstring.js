@@ -18,21 +18,36 @@ class GraphString extends graphology.Graph {
     graphString.replaceAttributes(this.getAttributes());
     return graphString;
   }
-  randomPath(start = "root") {
+  randomPath(start = "root", bias = []) {
     const neighbors = this.outNeighbors(start);
     if (neighbors.length == 0) {
       return [start];
     } else {
-      const randomNeighbor = get_random(neighbors);
-      return [start, ...(this.randomPath(randomNeighbor))];
+      const biasNeighbors = neighbors.filter(node => bias.includes(node));
+      var randomNeighbor;
+      if (biasNeighbors.length > 0) {
+        randomNeighbor = get_random(biasNeighbors);
+      } else {
+        randomNeighbor = get_random(neighbors);
+      }
+      return [start, ...(this.randomPath(randomNeighbor, bias))];
     }
   }
-  pathToString(path) {
+  pathToString(nodeArr) {
     var text = "";
-    for (var node of path) {
+    for (var node of nodeArr) {
         text += this.getNodeAttribute(node, "text");
     }
     return text;
+  }
+  mutatedPath(nodeArr) {
+    const mutationIndex = 1 + Math.floor((Math.random()*(nodeArr.length - 1)));
+    const mutationOptions = this.outNeighbors(nodeArr[mutationIndex - 1]);
+    const mutatedNode = get_random(mutationOptions);
+    return [
+      ...(nodeArr.slice(0, mutationIndex)),
+      ...(this.randomPath(mutatedNode, nodeArr))
+    ];
   }
 }
 
