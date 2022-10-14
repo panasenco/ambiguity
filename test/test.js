@@ -28,6 +28,14 @@ describe("Ambiguity", function() {
     // There should be a 'root' node
     assert(nodes[2] == "root");
   });
+  it("should parse text with newlines", function() {
+    parser = new ambiguity.Parser();
+    parser.feed("{}\n");
+    var g = parser.results[0]
+    assert.equal(g.order, 2);
+    assert(g.hasNode("root"));
+    assert(g.hasNode(0));
+  });
   it("should generate a graph with working randomPath() function", function() {
     parser = new ambiguity.Parser();
     parser.feed("<|a||>");

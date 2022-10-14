@@ -8,7 +8,7 @@ const lexer = moo.compile({
   choices_start: '<|',
   choices_end: '|>',
   choice_separator: '|',
-  char: /./
+  char: { match: /[\s\S]/, lineBreaks: true }
 });
 
 %}
