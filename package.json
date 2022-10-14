@@ -20,7 +20,7 @@
   "devDependencies": {
     "genetic-js": "^0.1.14",
     "graphology": "^0.25.0",
-    "graphology-gexf": "https://gitpkg.now.sh/panasenco/graphology/src/gexf?HEAD",
+    "graphology-gexf": "0.10.3",
     "graphology-operators": "^1.6.0",
     "install": "^0.13.0",
     "mocha": "^10.0.0",
