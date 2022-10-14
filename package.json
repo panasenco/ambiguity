@@ -25,7 +25,9 @@
     "install": "^0.13.0",
     "mocha": "^10.0.0",
     "moo": "^0.5.2",
-    "nearley": "^2.20.1",
     "npm": "^8.19.2"
+  },
+  "dependencies": {
+    "nearley": "^2.20.1"
   }
 }

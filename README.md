@@ -25,7 +25,7 @@ This will log a random variation of your ambiguity template, for example:
 
 ## API
 
-After parsing a string, Ambiguity returns a [Graphology](https://graphology.github.io/)-compatible graph object with the following additional methods to make usage with genetic algorithms easy:
+After parsing a string, Ambiguity returns a [Graphology](https://graphology.github.io/) graph object with the following additional methods to make usage with genetic algorithms easy:
 | Function              | Description
 | --------------------- | -----------
 | randomPath()          | Returns a random path through the graph as an array of nodes.
